@@ -1,0 +1,34 @@
+{
+	"ImportPath": "github.com/noroutine/gonzales",
+	"GoVersion": "go1.6",
+	"Deps": [
+		{
+			"ImportPath": "github.com/miekg/dns",
+			"Rev": "cce6c130cdb92c752850880fd285bea1d64439dd"
+		},
+		{
+			"ImportPath": "github.com/noroutine/bonjour",
+			"Rev": "7ee314fe2bb898db0072d9af4b540b816fe7c6b5"
+		},
+		{
+			"ImportPath": "github.com/noroutine/go-readline",
+			"Rev": "03db8e3d37c9f90fc484b30d943968de7fe1e5fd"
+		},
+		{
+			"ImportPath": "github.com/reusee/mmh3",
+			"Rev": "64b85163255bbb6af4f0d0eab61ecdda7ea7cd96"
+		},
+		{
+			"ImportPath": "golang.org/x/net/internal/iana",
+			"Rev": "6acef71eb69611914f7a30939ea9f6e194c78172"
+		},
+		{
+			"ImportPath": "golang.org/x/net/ipv4",
+			"Rev": "6acef71eb69611914f7a30939ea9f6e194c78172"
+		},
+		{
+			"ImportPath": "golang.org/x/net/ipv6",
+			"Rev": "6acef71eb69611914f7a30939ea9f6e194c78172"
+		}
+	]
+}
