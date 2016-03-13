@@ -2,8 +2,11 @@
 
 ### Speedy CI with super-low footprint
 
-#### Get Started
-
+#### Get Involved
+	
+	apt-get -qq install git build-essential libreadline-dev
+    go get github.com/noroutine.me
+    cd $GOPATH/src/noroutine/gonzales
     make
     ./gonzales
     
