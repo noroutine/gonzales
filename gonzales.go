@@ -12,6 +12,9 @@ import (
 	"github.com/noroutine/gonzales/cli"
 
 	"github.com/reusee/mmh3"
+
+	"golang.org/x/oauth2"
+	"github.com/google/go-github/github"
 )
 
 const version = "0.0.1"
@@ -19,6 +22,12 @@ const description = "Gonzales " + version
 const serviceType = "_gonzales._tcp"
 const domain = "local."
 const servicePort = 9999
+
+type GitHubData struct {
+	Token string
+	Username string
+}
+
 
 func serviceList() {
     resolver, err := bonjour.NewResolver(nil)
@@ -80,6 +89,8 @@ func main() {
 		}
 	}()
 
+	ghData := &GitHubData{os.Getenv("GITHUB_ACCESS_TOKEN"), os.Getenv("GITHUB_USERNAME")}
+
 	repl.EmptyHandler = func() {		
 		fmt.Println("Feeling lost? Try 'help'")
 		repl.EmptyHandler = nil
@@ -97,9 +108,72 @@ func main() {
 		fmt.Printf("Commands: %s\n", strings.Join(repl.GetKnownCommands(), ", "))
 	})
 
-	repl.Register("sleep", func(args []string) {
-		fmt.Println("Sleeping for 5 seconds...")
-		time.Sleep(5 * time.Second)
+	repl.Register("token", func(args []string) {
+		token := ""
+		if len(args) > 0 {
+			token = args[0]
+		}
+
+		ghData.Token = token
+	})
+
+	repl.Register("username", func(args []string) {
+		username := ""
+		if len(args) > 0 {
+			username = args[0]
+		}
+		ghData.Username = username
+	})
+
+	repl.Register("info", func(args []string) {
+		fmt.Println("Token", ghData.Token)
+		fmt.Println("User", ghData.Username)
+	})
+
+	repl.Register("organizations", func(args []string) {
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: ghData.Token},
+		)
+		tc := oauth2.NewClient(oauth2.NoContext, ts)
+		gh := github.NewClient(tc)
+
+		orgs, _, err := gh.Organizations.List(ghData.Username, nil)
+
+		if err == nil {
+
+			for _, org := range orgs {
+				fmt.Println(*org.Login)
+			}
+		} else {
+			fmt.Println(err)
+		}
+	})
+
+	repl.Register("repositories", func(args []string) {		
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: ghData.Token},
+		)
+		tc := oauth2.NewClient(oauth2.NoContext, ts)
+		gh := github.NewClient(tc)
+
+		namespace := ghData.Username
+		var repos []github.Repository
+		var err error
+
+		if len(args) > 0 {
+			repos, _, err = gh.Repositories.ListByOrg(args[0], nil)
+			namespace = args[0]
+		} else {
+			repos, _, err = gh.Repositories.List("", nil)
+		}
+
+		if err == nil {
+			for _, repo := range repos {
+				fmt.Println(namespace + "/" + *repo.Name)
+			}
+		} else {
+			fmt.Println(err)
+		}
 	})
 
 	repl.Register("mmh3", func(args []string) {
