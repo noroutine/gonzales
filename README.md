@@ -9,6 +9,8 @@
 Gonzales - super speedy CI
 =====
 
+[![Join the chat at https://gitter.im/noroutine/gonzales](https://badges.gitter.im/noroutine/gonzales.svg)](https://gitter.im/noroutine/gonzales?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 CI server that with low footprint
 
 How to Use
