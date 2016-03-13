@@ -1,0 +1,13 @@
+{
+	"name": "gonzales",
+	"description": "Super speedy CI",
+	"keywords": [
+		"go",
+		"gonzales"
+		"ci"
+	],
+	"image": "heroku/go:1.6",
+	"mount_dir": "src/github.com/noroutine/gonzales",
+	"website": "http://github.com/noroutine/gonzales",
+	"repository": "http://github.com/noroutine/gonzales"
+}
